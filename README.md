@@ -1,9 +1,82 @@
 # ToDo_app
 Приложения для планирования задач
 Основной экран:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ![main_screen](https://github.com/VladimirGladky/to_do_yandex/assets/92906509/b0de9df2-420b-4e1c-9791-3d4510ed3ad1)
 
 Экран задачи:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ![task_screen](https://github.com/VladimirGladky/to_do_yandex/assets/92906509/09306a78-b11f-46ce-a22a-e20d47d16f56)
 
 
