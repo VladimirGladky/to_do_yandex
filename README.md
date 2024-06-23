@@ -1,16 +1,14 @@
-# to_do
+# ToDo_app
+Приложения для планирования задач
 
-A new Flutter project.
+
+
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Приложение ToDoList - это простое, но мощное приложение для управления задачами, созданное на Flutter. Оно позволяет пользователям эффективно управлять своими задачами, добавляя, удаляя и редактируя их, а также устанавливая приоритеты.
 
-A few resources to get you started if this is your first Flutter project:
+Добавить задачу можно двумя способами: 1) быстро добавление с помощью текстового поля в нижней части экрана и нажатия на кнопку добавляения ('+') 2)В нижней правой части есть большая синия кнопка плюс через которые вы переходите на экран добавления задачи где можете добавить описание , время до которого нужно сделать эту задачу и её приоритет.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+На главном экране свайпая любую задачу вправо вы можете отметить её выполненной или свайпая влево удалить её . В верхей части экрана можно скрыть выполненные задачи нажимая на иконку глаза, также можно увидеть сколько у вас выполненных задач. У каждой задачи есть иконка с информацией , нажимая на неё , вы переходите на экран редактирования/добавления задачи , где можете получить полную информацию о ней либо изменить её.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
