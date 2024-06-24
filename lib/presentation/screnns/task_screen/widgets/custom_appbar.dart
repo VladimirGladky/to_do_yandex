@@ -15,7 +15,7 @@ class CustomTaskScreenAppBar extends StatelessWidget {
   final TextEditingController controller;
   final TodoTask? task;
   final bool chosendate;
-  final degreeofImportance? dropdownValue;
+  final DegreeOfImportance? dropdownValue;
   final DateTime datenow;
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class CustomTaskScreenAppBar extends StatelessWidget {
                               id: UniqueKey().toString(),
                               text: controller.text,
                               importance:
-                                  dropdownValue ?? degreeofImportance.none,
+                                  dropdownValue ?? DegreeOfImportance.none,
                               done: false,
                               deadline: chosendate ? datenow : null,
                               createdAt: DateTime.now(),
@@ -53,7 +53,7 @@ class CustomTaskScreenAppBar extends StatelessWidget {
                               id: task!.id,
                               text: controller.text,
                               importance:
-                                  dropdownValue ?? degreeofImportance.none,
+                                  dropdownValue ?? DegreeOfImportance.none,
                               done: task!.done,
                               deadline: chosendate ? datenow : null,
                               createdAt: task!.createdAt,

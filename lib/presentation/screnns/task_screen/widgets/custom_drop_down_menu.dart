@@ -3,22 +3,22 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:to_do/domain/models/task.dart';
 import 'package:to_do/utils/constutils.dart';
 
-const List<degreeofImportance> items = [
-  degreeofImportance.high,
-  degreeofImportance.low,
-  degreeofImportance.none
+const List<DegreeOfImportance> items = [
+  DegreeOfImportance.high,
+  DegreeOfImportance.low,
+  DegreeOfImportance.none
 ];
 
 class Customdropdownmenu extends StatelessWidget {
   const Customdropdownmenu(
       {super.key, required this.dropdownvalue, required this.callbackvalue});
 
-  final degreeofImportance? dropdownvalue;
+  final DegreeOfImportance? dropdownvalue;
   final Function callbackvalue;
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<degreeofImportance>(
+    return DropdownButton<DegreeOfImportance>(
       isDense: true,
       value: dropdownvalue,
       elevation: 16,
@@ -28,24 +28,24 @@ class Customdropdownmenu extends StatelessWidget {
               .textTheme
               .bodyMedium!
               .copyWith(color: Theme.of(context).colorScheme.shadow)),
-      onChanged: (degreeofImportance? value) {
+      onChanged: (DegreeOfImportance? value) {
         callbackvalue(value);
       },
       icon: const SizedBox(),
       iconSize: 0,
       underline: const SizedBox(),
-      items: items.map<DropdownMenuItem<degreeofImportance>>(
-        (degreeofImportance value) {
-          return DropdownMenuItem<degreeofImportance>(
+      items: items.map<DropdownMenuItem<DegreeOfImportance>>(
+        (DegreeOfImportance value) {
+          return DropdownMenuItem<DegreeOfImportance>(
             value: value,
             child: switch (value) {
-              degreeofImportance.none => Text(
+              DegreeOfImportance.none => Text(
                   "Нет",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-              degreeofImportance.low =>
+              DegreeOfImportance.low =>
                 Text("Низкий", style: Theme.of(context).textTheme.bodyMedium),
-              degreeofImportance.high => Row(
+              DegreeOfImportance.high => Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SvgPicture.asset(MyIcons.kHighPriorityIcon),

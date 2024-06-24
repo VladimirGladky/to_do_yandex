@@ -1,9 +1,9 @@
-enum degreeofImportance { none, low, high }
+enum DegreeOfImportance { none, low, high }
 
 class TodoTask {
   final String id;
   final String text;
-  final degreeofImportance importance;
+  final DegreeOfImportance importance;
 
   DateTime? deadline;
   bool done;

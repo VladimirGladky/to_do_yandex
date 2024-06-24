@@ -7,7 +7,7 @@ import 'package:to_do/utils/constutils.dart';
 
 class TaskCheckbox extends StatefulWidget {
   final String id;
-  final degreeofImportance importance;
+  final DegreeOfImportance importance;
   final bool done;
 
   const TaskCheckbox(
@@ -24,11 +24,11 @@ class _TaskCheckboxState extends State<TaskCheckbox> {
   @override
   Widget build(BuildContext context) {
     Color backgroundColor = switch (widget.importance) {
-      degreeofImportance.high => ColorPaletteLight.kColorRed.withOpacity(0.16),
+      DegreeOfImportance.high => ColorPaletteLight.kColorRed.withOpacity(0.16),
       _ => Colors.transparent
     };
     Color borderColor = switch (widget.importance) {
-      degreeofImportance.high => ColorPaletteLight.kColorRed,
+      DegreeOfImportance.high => ColorPaletteLight.kColorRed,
       _ => ColorPaletteLight.kSupportSeparator.withOpacity(0.2)
     };
     return Row(
@@ -60,10 +60,10 @@ class _TaskCheckboxState extends State<TaskCheckbox> {
         ),
         if (!widget.done)
           switch (widget.importance) {
-            degreeofImportance.low => Padding(
+            DegreeOfImportance.low => Padding(
                 padding: const EdgeInsets.only(right: 6),
                 child: SvgPicture.asset(MyIcons.kLowPriorityIcon)),
-            degreeofImportance.high => Padding(
+            DegreeOfImportance.high => Padding(
                 padding: const EdgeInsets.only(right: 6),
                 child: SvgPicture.asset(MyIcons.kHighPriorityIcon)),
             _ => const SizedBox()

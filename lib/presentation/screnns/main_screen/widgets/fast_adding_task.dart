@@ -41,7 +41,7 @@ class _FastaddingtaskState extends State<Fastaddingtask> {
                             task: TodoTask(
                                 id: UniqueKey().toString(),
                                 text: _controller.text,
-                                importance: degreeofImportance.none,
+                                importance: DegreeOfImportance.none,
                                 done: false,
                                 createdAt: DateTime.now(),
                                 changedAt: DateTime.now(),

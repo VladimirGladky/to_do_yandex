@@ -104,7 +104,7 @@ List<TodoTask> todoTasks = [
   TodoTask(
       id: UniqueKey().toString(),
       text: "Купить что-то",
-      importance: degreeofImportance.low,
+      importance: DegreeOfImportance.low,
       done: false,
       createdAt: DateTime.now(),
       changedAt: DateTime.now(),
@@ -112,7 +112,7 @@ List<TodoTask> todoTasks = [
   TodoTask(
       id: UniqueKey().toString(),
       text: "Купить что-то",
-      importance: degreeofImportance.high,
+      importance: DegreeOfImportance.high,
       done: false,
       createdAt: DateTime.now(),
       changedAt: DateTime.now(),
@@ -121,7 +121,7 @@ List<TodoTask> todoTasks = [
       id: UniqueKey().toString(),
       text:
           "Купить что-то,где-то,зачем-то, но зачем непонятно,но точно чтобы показать как обр",
-      importance: degreeofImportance.none,
+      importance: DegreeOfImportance.none,
       done: false,
       createdAt: DateTime.now(),
       changedAt: DateTime.now(),
@@ -129,7 +129,7 @@ List<TodoTask> todoTasks = [
   TodoTask(
       id: UniqueKey().toString(),
       text: "Купить что-то,где-то,зачем-то, но зачем непонятно",
-      importance: degreeofImportance.low,
+      importance: DegreeOfImportance.low,
       done: true,
       createdAt: DateTime.now(),
       changedAt: DateTime.now(),
@@ -138,7 +138,7 @@ List<TodoTask> todoTasks = [
   TodoTask(
       id: UniqueKey().toString(),
       text: "Купить что-то",
-      importance: degreeofImportance.high,
+      importance: DegreeOfImportance.high,
       done: false,
       createdAt: DateTime.now(),
       changedAt: DateTime.now(),

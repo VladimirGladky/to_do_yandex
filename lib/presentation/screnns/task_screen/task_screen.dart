@@ -16,7 +16,7 @@ class TaskScreen extends StatefulWidget {
 
 class _TaskScreenState extends State<TaskScreen> {
   late TextEditingController _controller;
-  degreeofImportance? dropdownvalue;
+  DegreeOfImportance? dropdownvalue;
   bool chosendate = false;
   DateTime datenow = DateTime.now();
 
@@ -39,7 +39,7 @@ class _TaskScreenState extends State<TaskScreen> {
     super.dispose();
   }
 
-  void callbackdropdownvalue(degreeofImportance value) {
+  void callbackdropdownvalue(DegreeOfImportance value) {
     setState(() {
       dropdownvalue = value;
     });
