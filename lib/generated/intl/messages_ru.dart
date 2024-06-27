@@ -1,5 +1,5 @@
 // DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
-// This is a library that provides messages for a en locale. All the
+// This is a library that provides messages for a ru locale. All the
 // messages from the main program should be duplicated here with the same
 // function name.
 
@@ -18,23 +18,22 @@ final messages = new MessageLookup();
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => 'en';
+  String get localeName => 'ru';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-        "delete": MessageLookupByLibrary.simpleMessage("Delete"),
-        "done": MessageLookupByLibrary.simpleMessage("Completed"),
-        "doneUntil": MessageLookupByLibrary.simpleMessage("Deadline"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Отменить"),
+        "delete": MessageLookupByLibrary.simpleMessage("Удалить"),
+        "done": MessageLookupByLibrary.simpleMessage("Выполнено"),
+        "doneUntil": MessageLookupByLibrary.simpleMessage("Сделать до"),
         "helloWorld": MessageLookupByLibrary.simpleMessage("Hello World!"),
-        "highPriority": MessageLookupByLibrary.simpleMessage("High"),
-        "lowPriority": MessageLookupByLibrary.simpleMessage("Low"),
-        "myTasks": MessageLookupByLibrary.simpleMessage("My tasks"),
-        "newTask": MessageLookupByLibrary.simpleMessage("New"),
-        "priority": MessageLookupByLibrary.simpleMessage("Priority"),
-        "save": MessageLookupByLibrary.simpleMessage("Save"),
-        "whatToDo":
-            MessageLookupByLibrary.simpleMessage("What needs to be done..."),
-        "withoutPriority": MessageLookupByLibrary.simpleMessage("None")
+        "highPriority": MessageLookupByLibrary.simpleMessage("Высокий"),
+        "lowPriority": MessageLookupByLibrary.simpleMessage("Низкий"),
+        "myTasks": MessageLookupByLibrary.simpleMessage("Мои дела"),
+        "newTask": MessageLookupByLibrary.simpleMessage("Новое"),
+        "priority": MessageLookupByLibrary.simpleMessage("Важность"),
+        "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
+        "whatToDo": MessageLookupByLibrary.simpleMessage("Что надо сделать..."),
+        "withoutPriority": MessageLookupByLibrary.simpleMessage("Нет")
       };
 }

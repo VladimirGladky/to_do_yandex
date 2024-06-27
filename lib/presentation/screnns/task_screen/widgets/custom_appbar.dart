@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do/bloc/tasks_bloc/bloc/to_do_tasks_bloc.dart';
 import 'package:to_do/domain/models/task.dart';
+import 'package:to_do/generated/l10n.dart';
 import 'package:to_do/utils/constutils.dart';
 
 class CustomTaskScreenAppBar extends StatelessWidget {
@@ -66,7 +67,7 @@ class CustomTaskScreenAppBar extends StatelessWidget {
               }
             },
             child: Text(
-              "Сохранить",
+              S.of(context).save,
               style: Theme.of(context)
                   .textTheme
                   .labelLarge!
