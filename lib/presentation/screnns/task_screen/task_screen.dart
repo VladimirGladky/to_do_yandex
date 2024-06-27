@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do/domain/models/task.dart';
+import 'package:to_do/generated/l10n.dart';
 import 'package:to_do/presentation/screnns/task_screen/widgets/custom_drop_down_menu.dart';
 import 'package:to_do/presentation/screnns/task_screen/widgets/custom_appbar.dart';
 import 'package:to_do/presentation/screnns/task_screen/widgets/deletetask.dart';
@@ -92,7 +93,7 @@ class _TaskScreenState extends State<TaskScreen> {
                     maxLines: null,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: "Что надо сделать..",
+                      hintText: S.of(context).whatToDo,
                       hintStyle: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -103,7 +104,7 @@ class _TaskScreenState extends State<TaskScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16, right: 16, top: 6),
-                  child: Text("Важность"),
+                  child: Text(S.of(context).priority),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -127,7 +128,7 @@ class _TaskScreenState extends State<TaskScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Сделать до:",
+                            S.of(context).doneUntil,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           if (chosendate)

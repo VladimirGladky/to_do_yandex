@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:to_do/bloc/tasks_bloc/bloc/to_do_tasks_bloc.dart';
+import 'package:to_do/generated/l10n.dart';
 import 'package:to_do/utils/constutils.dart';
 
 class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
@@ -48,7 +49,7 @@ class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 child: Opacity(
                   opacity: animationVal,
                   child: Text(
-                    "Выполнено - ${state is TodoTaskLoadedState ? state.doneCounter.toString() : " "}",
+                    "${S.of(context).done} - ${state is TodoTaskLoadedState ? state.doneCounter.toString() : " "}",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: Theme.of(context).colorScheme.secondary),
                   ),
@@ -58,7 +59,7 @@ class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 bottom: 16.0 + animationVal * 24,
                 left: (animationVal * 44 + 16).toDouble(),
                 child: Text(
-                  "Мои дела",
+                  S.of(context).myTasks,
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:to_do/domain/models/task.dart';
+import 'package:to_do/generated/l10n.dart';
 import 'package:to_do/utils/constutils.dart';
 
 const List<DegreeOfImportance> items = [
@@ -23,7 +24,7 @@ class Customdropdownmenu extends StatelessWidget {
       value: dropdownvalue,
       elevation: 16,
       style: Theme.of(context).textTheme.bodyMedium,
-      hint: Text("Нет",
+      hint: Text(S.of(context).withoutPriority,
           style: Theme.of(context)
               .textTheme
               .bodyMedium!
@@ -40,11 +41,11 @@ class Customdropdownmenu extends StatelessWidget {
             value: value,
             child: switch (value) {
               DegreeOfImportance.none => Text(
-                  "Нет",
+                  S.of(context).withoutPriority,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-              DegreeOfImportance.low =>
-                Text("Низкий", style: Theme.of(context).textTheme.bodyMedium),
+              DegreeOfImportance.low => Text(S.of(context).lowPriority,
+                  style: Theme.of(context).textTheme.bodyMedium),
               DegreeOfImportance.high => Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -53,7 +54,7 @@ class Customdropdownmenu extends StatelessWidget {
                       width: 6,
                     ),
                     Text(
-                      "Высокий",
+                      S.of(context).highPriority,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

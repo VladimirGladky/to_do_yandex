@@ -13,69 +13,65 @@ class TaskElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Theme.of(context).colorScheme.onSurface,
-        child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TaskCheckbox(
-                    done: task.done, id: task.id, importance: task.importance),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0, bottom: 4),
-                        child: Text(
-                          task.text,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                color: task.done
-                                    ? Theme.of(context).colorScheme.secondary
-                                    : null,
-                                decoration: task.done
-                                    ? TextDecoration.lineThrough
-                                    : null,
-                              ),
-                        ),
-                      ),
-                      if (task.deadline != null)
-                        Text(
-                          DateFormat('dd.MM.yyyy').format(task.deadline!),
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary),
-                        )
-                    ],
+      color: Theme.of(context).colorScheme.onSurface,
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TaskCheckbox(
+                done: task.done, id: task.id, importance: task.importance),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 4),
+                    child: Text(
+                      task.text,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: task.done
+                                ? Theme.of(context).colorScheme.secondary
+                                : null,
+                            decoration:
+                                task.done ? TextDecoration.lineThrough : null,
+                          ),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 14,
-                ),
-                Padding(
-                    padding: EdgeInsets.only(top: 12),
-                    child: IconButton(
-                      icon: SvgPicture.asset(MyIcons.kInfoOutlinedIcon),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => TaskScreen(
-                                    task: task,
-                                  )),
-                        );
-                      },
-                    ))
-              ],
-            )));
+                  if (task.deadline != null)
+                    Text(
+                      DateFormat('dd.MM.yyyy').format(task.deadline!),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: Theme.of(context).colorScheme.secondary),
+                    )
+                ],
+              ),
+            ),
+            const SizedBox(
+              width: 14,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 12),
+              child: IconButton(
+                icon: SvgPicture.asset(MyIcons.kInfoOutlinedIcon),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => TaskScreen(
+                        task: task,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

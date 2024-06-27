@@ -50,141 +50,131 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Привет мир!`
+  /// `Hello World!`
   String get helloWorld {
     return Intl.message(
-      'Привет мир!',
+      'Hello World!',
       name: 'helloWorld',
       desc: '',
       args: [],
     );
   }
 
-  /// `Мои дела`
+  /// `My tasks`
   String get myTasks {
     return Intl.message(
-      'Мои дела',
+      'My tasks',
       name: 'myTasks',
       desc: '',
       args: [],
     );
   }
 
-  /// `Выполнено - `
+  /// `Completed`
   String get done {
     return Intl.message(
-      'Выполнено - ',
+      'Completed',
       name: 'done',
       desc: '',
       args: [],
     );
   }
 
-  /// `СОХРАНИТЬ`
+  /// `Save`
   String get save {
     return Intl.message(
-      'СОХРАНИТЬ',
+      'Save',
       name: 'save',
       desc: '',
       args: [],
     );
   }
 
-  /// `Удалить`
+  /// `Delete`
   String get delete {
     return Intl.message(
-      'Удалить',
+      'Delete',
       name: 'delete',
       desc: '',
       args: [],
     );
   }
 
-  /// `Низкий`
+  /// `Low`
   String get lowPriority {
     return Intl.message(
-      'Низкий',
+      'Low',
       name: 'lowPriority',
       desc: '',
       args: [],
     );
   }
 
-  /// `Высокий`
+  /// `High`
   String get highPriority {
     return Intl.message(
-      'Высокий',
+      'High',
       name: 'highPriority',
       desc: '',
       args: [],
     );
   }
 
-  /// `Нет`
+  /// `None`
   String get withoutPriority {
     return Intl.message(
-      'Нет',
+      'None',
       name: 'withoutPriority',
       desc: '',
       args: [],
     );
   }
 
-  /// `Важность`
+  /// `Priority`
   String get priority {
     return Intl.message(
-      'Важность',
+      'Priority',
       name: 'priority',
       desc: '',
       args: [],
     );
   }
 
-  /// `Сделать до`
+  /// `Deadline`
   String get doneUntil {
     return Intl.message(
-      'Сделать до',
+      'Deadline',
       name: 'doneUntil',
       desc: '',
       args: [],
     );
   }
 
-  /// `Надо сделать что-то`
-  String get textExample {
-    return Intl.message(
-      'Надо сделать что-то',
-      name: 'textExample',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Удалено`
-  String get deleted {
-    return Intl.message(
-      'Удалено',
-      name: 'deleted',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Отмена`
+  /// `Cancel`
   String get cancel {
     return Intl.message(
-      'Отмена',
+      'Cancel',
       name: 'cancel',
       desc: '',
       args: [],
     );
   }
 
-  /// `Новое`
+  /// `New`
   String get newTask {
     return Intl.message(
-      'Новое',
+      'New',
       name: 'newTask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What needs to be done...`
+  String get whatToDo {
+    return Intl.message(
+      'What needs to be done...',
+      name: 'whatToDo',
       desc: '',
       args: [],
     );
@@ -197,6 +187,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'ru'),
     ];
   }
 

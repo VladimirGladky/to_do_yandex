@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do/bloc/tasks_bloc/bloc/to_do_tasks_bloc.dart';
 import 'package:to_do/domain/models/task.dart';
+import 'package:to_do/generated/l10n.dart';
 
-class Fastaddingtask extends StatefulWidget {
-  const Fastaddingtask({super.key});
+class FastAddingTask extends StatefulWidget {
+  const FastAddingTask({super.key});
 
   @override
-  State<Fastaddingtask> createState() => _FastaddingtaskState();
+  State<FastAddingTask> createState() => _FastAddingTaskState();
 }
 
-class _FastaddingtaskState extends State<Fastaddingtask> {
+class _FastAddingTaskState extends State<FastAddingTask> {
   late TextEditingController _controller;
   bool iconEnabled = false;
   @override
@@ -73,7 +74,7 @@ class _FastaddingtaskState extends State<Fastaddingtask> {
               maxLines: null,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: "Новое",
+                hintText: S.of(context).newTask,
                 hintStyle: Theme.of(context)
                     .textTheme
                     .bodyMedium!

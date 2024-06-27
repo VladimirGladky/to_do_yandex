@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:to_do/bloc/tasks_bloc/bloc/to_do_tasks_bloc.dart';
+import 'package:to_do/generated/l10n.dart';
 import 'package:to_do/utils/constutils.dart';
 
 class Swipeabletask extends StatefulWidget {
@@ -79,13 +80,13 @@ class _SwipeabletaskState extends State<Swipeabletask> {
           final snackbarController = ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               duration: const Duration(seconds: 2),
-              content: const Text(
-                "Удалить?",
+              content: Text(
+                S.of(context).delete + "?",
                 style: TextStyle(color: ColorPaletteLight.kLabelPrimary),
               ),
               action: SnackBarAction(
                   textColor: ColorPaletteLight.kLabelPrimary,
-                  label: "Отмена",
+                  label: S.of(context).cancel,
                   onPressed: () => delete = false),
             ),
           );
