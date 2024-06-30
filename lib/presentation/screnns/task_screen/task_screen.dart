@@ -16,7 +16,7 @@ class TaskScreen extends StatefulWidget {
 }
 
 class _TaskScreenState extends State<TaskScreen> {
-  late TextEditingController _controller;
+  late final TextEditingController _controller;
   DegreeOfImportance? dropdownvalue;
   bool chosendate = false;
   DateTime datenow = DateTime.now();
@@ -48,6 +48,8 @@ class _TaskScreenState extends State<TaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final th = Theme.of(context);
+
     return SafeArea(
       child: GestureDetector(
         onTap: () {
@@ -76,10 +78,10 @@ class _TaskScreenState extends State<TaskScreen> {
                   constraints: const BoxConstraints(minHeight: 144),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: th.colorScheme.onSurface,
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                        color: Theme.of(context).colorScheme.shadow,
+                        color: th.colorScheme.shadow,
                         blurRadius: 1.0,
                         spreadRadius: 1,
                         offset: const Offset(0, 1.0),
@@ -87,18 +89,15 @@ class _TaskScreenState extends State<TaskScreen> {
                     ],
                   ),
                   child: TextField(
-                    cursorColor: Theme.of(context).primaryColor,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    cursorColor: th.primaryColor,
+                    style: th.textTheme.bodyMedium,
                     controller: _controller,
                     maxLines: null,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: S.of(context).whatToDo,
-                      hintStyle: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(
-                              color: Theme.of(context).colorScheme.shadow),
+                      hintStyle: th.textTheme.bodyMedium!
+                          .copyWith(color: th.colorScheme.shadow),
                     ),
                   ),
                 ),
@@ -129,20 +128,17 @@ class _TaskScreenState extends State<TaskScreen> {
                         children: [
                           Text(
                             S.of(context).doneUntil,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: th.textTheme.bodyMedium,
                           ),
                           if (chosendate)
                             Text(DateFormat('dd.MM.yyyy').format(datenow),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                        color: Theme.of(context).primaryColor))
+                                style: th.textTheme.bodySmall!.copyWith(
+                                    color: Theme.of(context).primaryColor))
                         ],
                       ),
                       const Spacer(),
                       Switch(
-                          activeColor: Theme.of(context).primaryColor,
+                          activeColor: th.primaryColor,
                           value: chosendate,
                           onChanged: (bool value) async {
                             if (!value) {

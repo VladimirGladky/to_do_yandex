@@ -10,7 +10,7 @@ part 'to_do_tasks_state.dart';
 
 class ToDoTasksBloc extends Bloc<ToDoTasksEvent, ToDoTasksState> {
   List<TodoTask> resultList = [];
-  List<TodoTask> tasks = todoTasks;
+  List<TodoTask> tasks = [];
   int doneCounter = 0;
   var logger = Logger();
   bool isComplitedHide = false;
@@ -99,48 +99,3 @@ class ToDoTasksBloc extends Bloc<ToDoTasksEvent, ToDoTasksState> {
     logger.log(Level.trace, "Filter done");
   }
 }
-
-List<TodoTask> todoTasks = [
-  TodoTask(
-      id: UniqueKey().toString(),
-      text: "Купить что-то",
-      importance: DegreeOfImportance.low,
-      done: false,
-      createdAt: DateTime.now(),
-      changedAt: DateTime.now(),
-      lastUpdatedBy: "20062024"),
-  TodoTask(
-      id: UniqueKey().toString(),
-      text: "Купить что-то",
-      importance: DegreeOfImportance.high,
-      done: false,
-      createdAt: DateTime.now(),
-      changedAt: DateTime.now(),
-      lastUpdatedBy: "20062024"),
-  TodoTask(
-      id: UniqueKey().toString(),
-      text:
-          "Купить что-то,где-то,зачем-то, но зачем непонятно,но точно чтобы показать как обр",
-      importance: DegreeOfImportance.none,
-      done: false,
-      createdAt: DateTime.now(),
-      changedAt: DateTime.now(),
-      lastUpdatedBy: "20062024"),
-  TodoTask(
-      id: UniqueKey().toString(),
-      text: "Купить что-то,где-то,зачем-то, но зачем непонятно",
-      importance: DegreeOfImportance.low,
-      done: true,
-      createdAt: DateTime.now(),
-      changedAt: DateTime.now(),
-      lastUpdatedBy: "20062024",
-      deadline: DateTime.now()),
-  TodoTask(
-      id: UniqueKey().toString(),
-      text: "Купить что-то",
-      importance: DegreeOfImportance.high,
-      done: false,
-      createdAt: DateTime.now(),
-      changedAt: DateTime.now(),
-      lastUpdatedBy: "20062024"),
-];

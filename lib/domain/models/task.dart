@@ -1,11 +1,14 @@
+import 'package:flutter/material.dart';
+
 enum DegreeOfImportance { none, low, high }
 
 class TodoTask {
   final String id;
-  final String text;
-  final DegreeOfImportance importance;
+  String text;
+  DegreeOfImportance importance;
 
   DateTime? deadline;
+  Color? color;
   bool done;
 
   DateTime createdAt;

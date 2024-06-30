@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:to_do/bloc/tasks_bloc/bloc/to_do_tasks_bloc.dart';
+import 'package:to_do/domain/bloc/to_do_tasks_bloc/to_do_tasks_bloc.dart';
 import 'package:to_do/domain/models/task.dart';
 import 'package:to_do/generated/l10n.dart';
 import 'package:to_do/utils/constutils.dart';
