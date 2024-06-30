@@ -8,7 +8,7 @@ class MyConstants {
   static const keyRevision = "revision";
   static const keyUnSynchronized = "unsynchronized";
   //TODO: input your token
-  static const keyBearer = "";
+  static const keyBearer = "Himring";
 }
 
 class ColorPaletteLight {
