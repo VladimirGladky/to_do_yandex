@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:to_do/bloc/tasks_bloc/bloc/to_do_tasks_bloc.dart';
+import 'package:to_do/domain/bloc/to_do_tasks_bloc/to_do_tasks_bloc.dart';
 import 'package:to_do/domain/models/task.dart';
 import 'package:to_do/generated/l10n.dart';
+import 'package:uuid/uuid.dart';
 
 class FastAddingTask extends StatefulWidget {
   const FastAddingTask({super.key});
@@ -40,7 +41,7 @@ class _FastAddingTaskState extends State<FastAddingTask> {
                     context.read<ToDoTasksBloc>().add(
                           TodoTasksAddEvent(
                             task: TodoTask(
-                                id: UniqueKey().toString(),
+                                id: const Uuid().v4(),
                                 text: _controller.text,
                                 importance: DegreeOfImportance.none,
                                 done: false,

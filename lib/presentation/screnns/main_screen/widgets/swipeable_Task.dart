@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:to_do/bloc/tasks_bloc/bloc/to_do_tasks_bloc.dart';
+import 'package:to_do/domain/bloc/to_do_tasks_bloc/to_do_tasks_bloc.dart';
 import 'package:to_do/generated/l10n.dart';
 import 'package:to_do/utils/constutils.dart';
 
@@ -81,8 +81,8 @@ class _SwipeabletaskState extends State<Swipeabletask> {
             SnackBar(
               duration: const Duration(seconds: 2),
               content: Text(
-                S.of(context).delete + "?",
-                style: TextStyle(color: ColorPaletteLight.kLabelPrimary),
+                "${S.of(context).delete}?",
+                style: const TextStyle(color: ColorPaletteLight.kLabelPrimary),
               ),
               action: SnackBarAction(
                   textColor: ColorPaletteLight.kLabelPrimary,
