@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:to_do/bloc/tasks_bloc/bloc/to_do_tasks_bloc.dart';
+import 'package:to_do/domain/bloc/to_do_tasks_bloc/to_do_tasks_bloc.dart';
 import 'package:to_do/presentation/screnns/main_screen/widgets/swipeable_task.dart';
 import 'package:to_do/presentation/screnns/main_screen/widgets/fast_adding_task.dart';
 import 'package:to_do/presentation/screnns/main_screen/widgets/sliver_appbar_delegate.dart';

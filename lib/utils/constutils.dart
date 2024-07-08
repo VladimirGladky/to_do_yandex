@@ -1,4 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class MyConstants {
+  static const baseUrl = "https://hive.mrdekk.ru/todo";
+  static const keyRevision = "revision";
+  static const keyUnSynchronized = "unsynchronized";
+  //TODO: input your token
+  static const keyBearer = "Himring";
+}
 
 class ColorPaletteLight {
   static const Color kSupportSeparator = Color(0x33000000);
@@ -44,4 +55,54 @@ class MyIcons {
   static const String kEyeCrossIcon = 'assets/icons/eye_cross.svg';
   static const String kDoneIcon = 'assets/icons/done.svg';
   static const String kRubbishIcon = 'assets/icons/rubbish.svg';
+}
+
+class MyFunctions {
+  static int fastHash(String string) {
+    var hash = 0xcbf29ce484222325;
+
+    var i = 0;
+    while (i < string.length) {
+      final codeUnit = string.codeUnitAt(i++);
+      hash ^= codeUnit >> 8;
+      hash *= 0x100000001b3;
+      hash ^= codeUnit & 0xFF;
+      hash *= 0x100000001b3;
+    }
+
+    return hash;
+  }
+
+  static Future<int> getRevision() async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    int i = sharedPrefs.getInt(MyConstants.keyRevision) ?? 0;
+    return i;
+  }
+
+  static Future<bool> setRevision(int revision) async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    Future<bool> b = sharedPrefs.setInt(MyConstants.keyRevision, revision);
+    return b;
+  }
+
+  static Future<Map<String, int>> getUnSynchronizedDeleted() async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    final String stringResult =
+        sharedPrefs.getString(MyConstants.keyUnSynchronized) ?? "";
+    Map<String, int> result = {};
+    if (stringResult.isNotEmpty) {
+      Map<dynamic, dynamic> tmp = jsonDecode(stringResult);
+      tmp.forEach((key, value) {
+        result.addAll({key as String: value as int});
+      });
+    }
+    return result;
+  }
+
+  static Future<bool> setUnSynchronizedDeleted(
+      Map<String, int> deletedItems) async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    return sharedPrefs.setString(MyConstants.keyUnSynchronized,
+        deletedItems.isNotEmpty ? jsonEncode(deletedItems) : "");
+  }
 }

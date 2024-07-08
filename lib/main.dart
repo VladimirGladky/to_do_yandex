@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:to_do/bloc/tasks_bloc/bloc/to_do_tasks_bloc.dart';
+import 'package:to_do/domain/bloc/to_do_tasks_bloc/to_do_tasks_bloc.dart';
 import 'package:to_do/generated/l10n.dart';
 import 'package:to_do/presentation/screnns/main_screen/main_screen.dart';
 import 'package:to_do/utils/light_theme.dart';
