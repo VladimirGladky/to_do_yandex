@@ -4,6 +4,8 @@ part 'api_local_todo_task.g.dart';
 
 @Collection()
 class ApiLocalTodoTask {
+  @Name("is_synchronized")
+  bool? isSynchronized;
   @Name("isar_id")
   Id get isarId => MyFunctions.fastHash(id!);
   String? id;

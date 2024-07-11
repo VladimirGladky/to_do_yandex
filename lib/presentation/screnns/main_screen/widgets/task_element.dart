@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do/app/navigation/router_delegate.dart';
 import 'package:to_do/domain/models/task.dart';
 import 'package:to_do/presentation/screnns/main_screen/widgets/task_checkbox.dart';
 import 'package:to_do/presentation/screnns/task_screen/task_screen.dart';
@@ -55,17 +57,18 @@ class TaskElement extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 12),
-              child: IconButton(
-                icon: SvgPicture.asset(MyIcons.kInfoOutlinedIcon),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => TaskScreen(
-                        task: task,
-                      ),
-                    ),
-                  );
-                },
+              child: SizedBox(
+                height: 19,
+                child: IconButton(
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    color: Colors.transparent,
+                    padding: const EdgeInsets.all(0),
+                    onPressed: () =>
+                        GetIt.I<MyRouterDelegate>().showItemDetails(task.id),
+                    icon: SvgPicture.asset(MyIcons.kInfoOutlinedIcon)),
               ),
             )
           ],

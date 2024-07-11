@@ -7,9 +7,9 @@ import 'package:to_do/presentation/screnns/task_screen/widgets/custom_appbar.dar
 import 'package:to_do/presentation/screnns/task_screen/widgets/deletetask.dart';
 
 class TaskScreen extends StatefulWidget {
-  const TaskScreen({super.key, this.task});
+  const TaskScreen({super.key, this.taskId});
 
-  final TodoTask? task;
+  final String? taskId;
 
   @override
   State<TaskScreen> createState() => _TaskScreenState();
@@ -20,17 +20,18 @@ class _TaskScreenState extends State<TaskScreen> {
   DegreeOfImportance? dropdownvalue;
   bool chosendate = false;
   DateTime datenow = DateTime.now();
+  TodoTask? task;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
 
-    if (widget.task != null) {
-      chosendate = widget.task!.deadline != null ? true : false;
-      _controller.text = widget.task!.text;
-      datenow = widget.task!.deadline ?? DateTime.now();
-      dropdownvalue = widget.task!.importance;
+    if (task != null) {
+      chosendate = task!.deadline != null ? true : false;
+      _controller.text = task!.text;
+      datenow = task!.deadline ?? DateTime.now();
+      dropdownvalue = task!.importance;
     }
   }
 
@@ -69,7 +70,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   datenow: datenow,
                   chosendate: chosendate,
                   dropdownValue: dropdownvalue,
-                  task: widget.task,
+                  task: task,
                 ),
                 Container(
                   margin:
@@ -170,7 +171,7 @@ class _TaskScreenState extends State<TaskScreen> {
                 const Divider(
                   thickness: 1,
                 ),
-                DeleteTask(task: widget.task),
+                DeleteTask(task: task),
               ],
             ),
           ),

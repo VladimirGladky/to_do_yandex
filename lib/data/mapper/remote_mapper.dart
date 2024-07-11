@@ -14,6 +14,7 @@ class RemoteTodoTaskMapper {
       createdAt: DateTime.fromMillisecondsSinceEpoch(task.createdAt),
       changedAt: DateTime.fromMillisecondsSinceEpoch(task.changedAt),
       lastUpdatedBy: task.lastUpdatedBy,
+      isSynchronized: true,
     );
   }
 

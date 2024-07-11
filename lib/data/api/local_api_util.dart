@@ -7,8 +7,22 @@ class LocalApiUtil {
   final LocalTodoService _localTodoService;
   LocalApiUtil(this._localTodoService);
 
-  Future<List<TodoTask>> getAll() async {
-    final tmp = await _localTodoService.getAll();
+  Future<void> addTask(
+      {required TodoTask todoTask, bool isSynchronized = false}) async {
+    final ApiLocalTodoTask localTodoTask =
+        LocalTodoTaskMapper.toApi(todoTask, isSynchronized);
+    await _localTodoService.editOrAddTask(localTodoTask);
+  }
+
+  Future<void> editTask(
+      {required TodoTask todoTask, bool isSynchronized = false}) async {
+    final ApiLocalTodoTask localTodoTask =
+        LocalTodoTaskMapper.toApi(todoTask, isSynchronized);
+    await _localTodoService.editOrAddTask(localTodoTask);
+  }
+
+  Future<List<TodoTask>> getList() async {
+    final tmp = await _localTodoService.getList();
     final List<TodoTask> result = [];
     for (ApiLocalTodoTask task in tmp) {
       result.add(LocalTodoTaskMapper.fromApi(task));
@@ -16,29 +30,22 @@ class LocalApiUtil {
     return result;
   }
 
-  Future<TodoTask?> getById(String id) async {
-    final result = await _localTodoService.getById(id);
+  Future<TodoTask?> getTask({required String taskId}) async {
+    final result = await _localTodoService.getTask(taskId);
     return result == null ? null : LocalTodoTaskMapper.fromApi(result);
   }
 
-  Future<bool> deleteById(String id) async {
-    return await _localTodoService.deleteById(id);
+  Future<void> removeTask({required String taskId}) async {
+    await _localTodoService.removeTask(taskId);
   }
 
-  Future<bool> deleteAll() async {
-    return await _localTodoService.deleteAll();
-  }
-
-  Future<bool> updateOrAdd(TodoTask task) async {
-    final ApiLocalTodoTask localTodoTask = LocalTodoTaskMapper.toApi(task);
-    return await _localTodoService.updateOrAdd(localTodoTask);
-  }
-
-  Future<bool> addAll(List<TodoTask> todoTasks) async {
-    final List<ApiLocalTodoTask> localTodoTasks = [];
+  Future<List<TodoTask>> updateList({required List<TodoTask> todoTasks}) async {
+    await _localTodoService.removeAll();
+    final List<ApiLocalTodoTask> localTasks = [];
     for (TodoTask task in todoTasks) {
-      localTodoTasks.add(LocalTodoTaskMapper.toApi(task));
+      localTasks.add(LocalTodoTaskMapper.toApi(task, true));
     }
-    return await _localTodoService.addAll(localTodoTasks);
+    await _localTodoService.addAll(localTasks);
+    return await getList();
   }
 }
