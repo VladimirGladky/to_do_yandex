@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:to_do/domain/exception/exceptions.dart';

@@ -47,4 +47,18 @@ class TodoTask {
         other.changedAt == changedAt &&
         other.lastUpdatedBy == lastUpdatedBy;
   }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        text.hashCode ^
+        importance.hashCode ^
+        deadline.hashCode ^
+        done.hashCode ^
+        isSynchronized.hashCode ^
+        color.hashCode ^
+        createdAt.hashCode ^
+        changedAt.hashCode ^
+        lastUpdatedBy.hashCode;
+  }
 }

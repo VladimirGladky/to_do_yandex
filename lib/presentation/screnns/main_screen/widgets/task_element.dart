@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:to_do/app/navigation/router_delegate.dart';
 import 'package:to_do/domain/models/task.dart';
 import 'package:to_do/presentation/screnns/main_screen/widgets/task_checkbox.dart';
-import 'package:to_do/presentation/screnns/task_screen/task_screen.dart';
 import 'package:to_do/utils/constutils.dart';
 
 class TaskElement extends StatelessWidget {

@@ -7,7 +7,6 @@ import 'package:to_do/presentation/screnns/main_screen/widgets/swipeable_task.da
 import 'package:to_do/presentation/screnns/main_screen/widgets/fast_adding_task.dart';
 import 'package:to_do/presentation/screnns/main_screen/widgets/sliver_appbar_delegate.dart';
 import 'package:to_do/presentation/screnns/main_screen/widgets/task_element.dart';
-import 'package:to_do/presentation/screnns/task_screen/task_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
