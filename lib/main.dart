@@ -3,6 +3,6 @@ import 'package:to_do/app/app.dart';
 import 'package:to_do/app/di/di_injection.dart';
 
 void main() {
-  setUpDI();
+  setUpDI(DIOptions.dev);
   runApp(const MyApp());
 }

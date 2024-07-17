@@ -82,7 +82,6 @@ class ToDoTasksBloc extends Bloc<ToDoTasksEvent, ToDoTasksState> {
     logger.log(
         Level.trace, "End Change Done event for task with ${event.id} id");
     emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
-    //int statusCode;
 
     try {
       await repository.editTask(changedTask);

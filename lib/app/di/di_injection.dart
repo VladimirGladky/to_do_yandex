@@ -14,36 +14,73 @@ import 'package:to_do/domain/repository/abstract_to_do_repo.dart';
 
 import '../navigation/router_delegate.dart';
 
-void setUpDI() {
+void setUpDI(DIOptions options) {
   final getIt = GetIt.instance;
 
   getIt.registerLazySingleton<MyRouterDelegate>(() => MyRouterDelegate());
   getIt.registerLazySingleton<CustomRouteInformationParser>(
       () => CustomRouteInformationParser());
+  switch (options) {
+    ///DEV OPTIONS
+    case DIOptions.dev:
+      getIt.registerLazySingleton<AbstractTodoTasksRepository>(
+        () => TodoDataRemoteRepository(
+          RemoteApiUtil(
+            RemoteToDoService(),
+          ),
+        ),
+        instanceName: "RemoteRepository",
+      );
+      getIt.registerLazySingleton<AbstractTodoTasksRepository>(
+        () => TodoDataLocalRepository(
+          LocalApiUtil(
+            LocalTodoService(),
+          ),
+        ),
+        instanceName: "LocalRepository",
+      );
 
-  getIt.registerLazySingleton<AbstractTodoTasksRepository>(
-    () => TodoDataRemoteRepository(
-      RemoteApiUtil(
-        RemoteToDoService(),
-      ),
-    ),
-    instanceName: "RemoteRepository",
-  );
-  getIt.registerLazySingleton<AbstractTodoTasksRepository>(
-    () => TodoDataLocalRepository(
-      LocalApiUtil(
-        LocalTodoService(),
-      ),
-    ),
-    instanceName: "LocalRepository",
-  );
+      getIt.registerLazySingleton<AbstractSharedPrefsRepository>(
+        () => SharedPrefsDataRepository(
+          SharedPrefsApiUtil(
+            SharedPrefsService(),
+          ),
+        ),
+        instanceName: "SharedPrefsRepository",
+      );
+      break;
 
-  getIt.registerLazySingleton<AbstractSharedPrefsRepository>(
-    () => SharedPrefsDataRepository(
-      SharedPrefsApiUtil(
-        SharedPrefsService(),
-      ),
-    ),
-    instanceName: "SharedPrefsRepository",
-  );
+    ///PROD OPTIONS
+    case DIOptions.prod:
+      getIt.registerLazySingleton<AbstractTodoTasksRepository>(
+        () => TodoDataRemoteRepository(
+          RemoteApiUtil(
+            RemoteToDoService(),
+          ),
+        ),
+        instanceName: "RemoteRepository",
+      );
+      getIt.registerLazySingleton<AbstractTodoTasksRepository>(
+        () => TodoDataLocalRepository(
+          LocalApiUtil(
+            LocalTodoService(),
+          ),
+        ),
+        instanceName: "LocalRepository",
+      );
+
+      getIt.registerLazySingleton<AbstractSharedPrefsRepository>(
+        () => SharedPrefsDataRepository(
+          SharedPrefsApiUtil(
+            SharedPrefsService(),
+          ),
+        ),
+        instanceName: "SharedPrefsRepository",
+      );
+      break;
+    case DIOptions.test:
+    // TODO: Handle this case.
+  }
 }
+
+enum DIOptions { test, prod, dev }
