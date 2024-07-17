@@ -44,7 +44,8 @@ class CustomTaskScreenAppBar extends StatelessWidget {
                               deadline: chosendate ? datenow : null,
                               createdAt: DateTime.now(),
                               changedAt: DateTime.now(),
-                              lastUpdatedBy: "22222332332"),
+                              lastUpdatedBy: "22222332332",
+                              isSynchronized: false),
                         ),
                       );
                 } else {
@@ -60,7 +61,8 @@ class CustomTaskScreenAppBar extends StatelessWidget {
                               deadline: chosendate ? datenow : null,
                               createdAt: task!.createdAt,
                               changedAt: DateTime.now(),
-                              lastUpdatedBy: "20062024"),
+                              lastUpdatedBy: "20062024",
+                              isSynchronized: false),
                         ),
                       );
                 }

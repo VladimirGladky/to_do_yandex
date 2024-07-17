@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:to_do/domain/exception/exceptions.dart';
 import 'package:to_do/domain/models/task.dart';
 import 'package:logger/logger.dart';
 import 'package:to_do/domain/repository/to_do_repository.dart';
@@ -13,11 +14,22 @@ part 'to_do_tasks_state.dart';
 class ToDoTasksBloc extends Bloc<ToDoTasksEvent, ToDoTasksState> {
   late final TodoRepository repository;
 
-  List<TodoTask> resultList = [];
-  List<TodoTask> tasks = [];
-  int doneCounter = 0;
+  List<TodoTask> _resultList = [];
+  List<TodoTask> _tasks = [];
+  int _doneCounter = 0;
   var logger = Logger();
-  bool isComplitedHide = false;
+  bool _isComplitedHide = false;
+  bool get isComplitedHide => _isComplitedHide;
+
+  TodoTask? getTaskById(String? id) {
+    if (id == null) return null;
+    try {
+      TodoTask resTask = _tasks.firstWhere((element) => element.id == id);
+      return resTask;
+    } catch (e) {
+      return null;
+    }
+  }
 
   ToDoTasksBloc() : super(ToDoTasksInitial()) {
     repository = TodoRepository();
@@ -32,16 +44,23 @@ class ToDoTasksBloc extends Bloc<ToDoTasksEvent, ToDoTasksState> {
 
   FutureOr<void> _onTasksLoadEvent(
       TodoTasksLoadEvent event, Emitter<ToDoTasksState> emit) async {
+    logger.log(Level.trace, "Start load task event");
     emit(TodoTaskLoadingState());
-    int statusCode;
-    List<TodoTask> tmpList;
-    (statusCode, tmpList) = await repository.getAndMergeTasks();
-    tasks = tmpList;
+    List<TodoTask> tmpList = [];
+    try {
+      tmpList = await repository.getAndMergeTasks();
+    } catch (e) {
+      logger.e("Error: ${e.toString()}");
+      emit(
+          TodoTaskErrorState(errorMessage: (e as MyExceptions).errorMessage()));
+      emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
+    }
+    _tasks = tmpList;
     _filterFunction();
     logger.log(Level.trace,
-        "End load task event with $statusCode code\nResultative list: $resultList");
-    logger.log(Level.trace, jsonEncode("tasks: $tasks"));
-    emit(TodoTaskLoadedState(tasks: resultList, doneCounter: doneCounter));
+        "End load task event\nResultative list: ${_resultList.toString()}");
+    logger.log(Level.trace, jsonEncode("tasks: ${_tasks.toString()}"));
+    emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
   }
 
   FutureOr<void> _onTasksChangeDoneEvent(
@@ -50,26 +69,28 @@ class ToDoTasksBloc extends Bloc<ToDoTasksEvent, ToDoTasksState> {
         Level.trace, "Start Change Done event for task with ${event.id} id");
 
     TodoTask changedTask =
-        tasks.firstWhere((element) => element.id == event.id);
+        _tasks.firstWhere((element) => element.id == event.id);
     changedTask.done = !changedTask.done;
 
     emit(TodoTaskLoadedState(
-        tasks: resultList,
-        doneCounter: changedTask.done ? doneCounter + 1 : doneCounter));
+        tasks: _resultList,
+        doneCounter: changedTask.done ? _doneCounter + 1 : _doneCounter));
 
     await Future<void>.delayed(const Duration(milliseconds: 850));
     emit(TodoTaskLoadingState());
     _filterFunction();
     logger.log(
         Level.trace, "End Change Done event for task with ${event.id} id");
-    emit(TodoTaskLoadedState(tasks: resultList, doneCounter: doneCounter));
+    emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
+    //int statusCode;
 
-    List<TodoTask>? tmpList;
-    (_, tmpList) = await repository.changeTask(changedTask);
-    if (tmpList != null) {
-      tasks = tmpList;
-      _filterFunction();
-      emit(TodoTaskLoadedState(tasks: resultList, doneCounter: doneCounter));
+    try {
+      await repository.editTask(changedTask);
+    } catch (e) {
+      logger.e("Error: ${e.toString()}");
+      emit(
+          TodoTaskErrorState(errorMessage: (e as MyExceptions).errorMessage()));
+      emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
     }
   }
 
@@ -77,67 +98,78 @@ class ToDoTasksBloc extends Bloc<ToDoTasksEvent, ToDoTasksState> {
       TodoTasksRemoveEvent event, Emitter<ToDoTasksState> emit) async {
     logger.log(Level.trace, "Start Remove event for task with ${event.id} id");
     emit(TodoTaskLoadingState());
-    tasks.removeWhere((element) => element.id == event.id);
+
+    _tasks.removeWhere((element) => element.id == event.id);
     _filterFunction();
     logger.log(Level.trace, "End Remove event for task with ${event.id} id");
-    emit(TodoTaskLoadedState(tasks: resultList, doneCounter: doneCounter));
-
-    List<TodoTask>? tmpList;
-    (_, tmpList) = await repository.taskRemove(event.id);
-    if (tmpList != null) {
-      tasks = tmpList;
-      _filterFunction();
-      emit(TodoTaskLoadedState(tasks: resultList, doneCounter: doneCounter));
+    emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
+    try {
+      await repository.removeTask(event.id);
+    } catch (e) {
+      logger.e("Error: ${e.toString()}");
+      emit(
+          TodoTaskErrorState(errorMessage: (e as MyExceptions).errorMessage()));
+      emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
     }
   }
 
   FutureOr<void> _onTodoTasksAddEvent(
-      TodoTasksAddEvent event, Emitter<ToDoTasksState> emit) {
+      TodoTasksAddEvent event, Emitter<ToDoTasksState> emit) async {
     logger.log(Level.trace, "Start Add task event with task  ${event.task}");
     emit(TodoTaskLoadingState());
-    tasks.add(event.task);
+
+    _tasks.add(event.task);
     _filterFunction();
     logger.log(Level.trace, "End Add task event with task  ${event.task}");
-    emit(TodoTaskLoadedState(tasks: resultList, doneCounter: doneCounter));
+    emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
+    try {
+      await repository.addTask(event.task);
+    } catch (e) {
+      logger.e("Error: ${e.toString()}");
+      emit(
+          TodoTaskErrorState(errorMessage: (e as MyExceptions).errorMessage()));
+      emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
+    }
   }
 
   FutureOr<void> _onTodoTasksChangeDoneVisibilityEvent(
       TodoTasksChangeDoneVisibilityEvent event, Emitter<ToDoTasksState> emit) {
     logger.log(Level.trace, "Start Change visibility event");
     emit(TodoTaskLoadingState());
-    isComplitedHide = !isComplitedHide;
+    _isComplitedHide = !_isComplitedHide;
     _filterFunction();
     logger.log(Level.trace, "End Change visibility event");
-    emit(TodoTaskLoadedState(tasks: resultList, doneCounter: doneCounter));
+    emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
   }
 
   FutureOr<void> _onTodoTasksChangeTaskEvent(
       TodoTasksChangeTaskEvent event, Emitter<ToDoTasksState> emit) async {
     logger.log(Level.trace, "Start Change event with task  ${event.task}");
     emit(TodoTaskLoadingState());
-    int i = tasks.indexWhere((element) => element.id == event.id);
+    int i = _tasks.indexWhere((element) => element.id == event.id);
 
-    tasks[i] = event.task;
+    _tasks[i] = event.task;
     _filterFunction();
     logger.log(Level.trace, "End Change event with task  ${event.task}");
-    emit(TodoTaskLoadedState(tasks: resultList, doneCounter: doneCounter));
+    emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
 
-    List<TodoTask>? tmpList;
-    (_, tmpList) = await repository.changeTask(event.task);
-    if (tmpList != null) {
-      tasks = tmpList;
-      _filterFunction();
-      emit(TodoTaskLoadedState(tasks: resultList, doneCounter: doneCounter));
+    try {
+      await repository.editTask(event.task);
+    } catch (e) {
+      logger.e("Error: ${e.toString()}");
+      emit(
+          TodoTaskErrorState(errorMessage: (e as MyExceptions).errorMessage()));
+      emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
     }
   }
 
   void _filterFunction() {
     logger.log(Level.trace, "Start filter");
     final List<TodoTask> doneTasks =
-        tasks.where((element) => element.done).toList();
-    doneCounter = doneTasks.length;
-    tasks.sort(((a, b) => b.createdAt.compareTo(a.createdAt)));
-    resultList = tasks.where((element) => !element.done).toList() +
+        _tasks.where((element) => element.done).toList();
+    _doneCounter = doneTasks.length;
+    _tasks.sort(((a, b) => b.createdAt.compareTo(a.createdAt)));
+    _resultList = _tasks.where((element) => !element.done).toList() +
         (isComplitedHide ? [] : doneTasks);
     logger.log(Level.trace, "Filter done");
   }

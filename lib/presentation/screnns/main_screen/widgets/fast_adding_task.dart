@@ -47,7 +47,8 @@ class _FastAddingTaskState extends State<FastAddingTask> {
                                 done: false,
                                 createdAt: DateTime.now(),
                                 changedAt: DateTime.now(),
-                                lastUpdatedBy: "20062024"),
+                                lastUpdatedBy: "20062024",
+                                isSynchronized: false),
                           ),
                         );
                     _controller.clear();
