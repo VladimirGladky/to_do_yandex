@@ -69,4 +69,40 @@ ThemeData lightTheme() => ThemeData(
       ),
       iconTheme: const IconThemeData(color: ColorPaletteLight.kLabelTertiary),
       useMaterial3: false,
+      dividerTheme:
+          const DividerThemeData(color: ColorPaletteLight.kSupportSeparator),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.selected)) {
+              return ColorPaletteLight.kColorBlue;
+            }
+            return ColorPaletteLight.kColorGray;
+          },
+        ),
+        trackColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.selected)) {
+              return ColorPaletteLight.kColorBlue.withOpacity(0.48);
+            }
+            return ColorPaletteLight.kColorGray.withOpacity(0.48);
+          },
+        ),
+        trackOutlineColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.selected)) {
+              return ColorPaletteLight.kColorBlue.withOpacity(0.48);
+            }
+            return ColorPaletteLight.kColorGray.withOpacity(0.48);
+          },
+        ),
+      ),
+      cardTheme: const CardTheme(
+        color: ColorPaletteLight.kBackSecondary,
+        surfaceTintColor: ColorPaletteLight.kBackSecondary,
+      ),
+      popupMenuTheme: const PopupMenuThemeData(
+        color: ColorPaletteLight.kBackPrimary,
+        surfaceTintColor: ColorPaletteLight.kBackPrimary,
+      ),
     );

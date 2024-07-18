@@ -6,6 +6,7 @@ import 'package:to_do/app/navigation/route_parser.dart';
 import 'package:to_do/app/navigation/router_delegate.dart';
 import 'package:to_do/domain/bloc/to_do_tasks_bloc/to_do_tasks_bloc.dart';
 import 'package:to_do/generated/l10n.dart';
+import 'package:to_do/utils/dark_theme.dart';
 import 'package:to_do/utils/light_theme.dart';
 
 class MyApp extends StatelessWidget {
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'to_do',
         theme: lightTheme(),
+        darkTheme: darkTheme(),
         routerDelegate: GetIt.I<MyRouterDelegate>(),
         routeInformationParser: GetIt.I<CustomRouteInformationParser>(),
       ),

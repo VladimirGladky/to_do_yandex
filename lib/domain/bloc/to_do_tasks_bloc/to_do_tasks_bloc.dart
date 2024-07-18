@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:to_do/app/firebase/firebase_config.dart';
 import 'package:to_do/domain/exception/exceptions.dart';
 import 'package:to_do/domain/models/task.dart';
 import 'package:logger/logger.dart';
@@ -33,19 +36,31 @@ class ToDoTasksBloc extends Bloc<ToDoTasksEvent, ToDoTasksState> {
 
   ToDoTasksBloc() : super(ToDoTasksInitial()) {
     repository = TodoRepository();
-    on<TodoTasksLoadEvent>(_onTasksLoadEvent);
+    FirebaseRemoteConfig.instance.onConfigUpdated.listen((event) async {
+      await FirebaseRemoteConfig.instance.activate();
+      add(PriorityColorChangeTaskEvent());
+    });
+    on<TodoTasksLoadEvent>(_onTasksListLoadEvent);
     on<TodoTasksChangeDoneEvent>(_onTasksChangeDoneEvent);
     on<TodoTasksRemoveEvent>(_onTasksRemoveEvent);
     on<TodoTasksAddEvent>(_onTodoTasksAddEvent);
     on<TodoTasksChangeDoneVisibilityEvent>(
         _onTodoTasksChangeDoneVisibilityEvent);
     on<TodoTasksChangeTaskEvent>(_onTodoTasksChangeTaskEvent);
+    on<PriorityColorChangeTaskEvent>(_updateColor);
   }
 
-  FutureOr<void> _onTasksLoadEvent(
-      TodoTasksLoadEvent event, Emitter<ToDoTasksState> emit) async {
-    logger.log(Level.trace, "Start load task event");
+  FutureOr<void> _updateColor(
+      PriorityColorChangeTaskEvent event, Emitter<ToDoTasksState> emit) {
     emit(TodoTaskLoadingState());
+    emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
+  }
+
+  FutureOr<void> _onTasksListLoadEvent(
+      TodoTasksLoadEvent event, Emitter<ToDoTasksState> emit) async {
+    logger.d("Start task loading event");
+    emit(TodoTaskLoadingState());
+
     List<TodoTask> tmpList = [];
     try {
       tmpList = await repository.getAndMergeTasks();
@@ -57,69 +72,70 @@ class ToDoTasksBloc extends Bloc<ToDoTasksEvent, ToDoTasksState> {
     }
     _tasks = tmpList;
     _filterFunction();
-    logger.log(Level.trace,
-        "End load task event\nResultative list: ${_resultList.toString()}");
-    logger.log(Level.trace, jsonEncode("tasks: ${_tasks.toString()}"));
+    logger.d(
+        "End load task event\nResultative list length: ${_resultList.length.toString()}");
     emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
   }
 
   FutureOr<void> _onTasksChangeDoneEvent(
       TodoTasksChangeDoneEvent event, Emitter<ToDoTasksState> emit) async {
-    logger.log(
-        Level.trace, "Start Change Done event for task with ${event.id} id");
-
-    TodoTask changedTask =
-        _tasks.firstWhere((element) => element.id == event.id);
-    changedTask.done = !changedTask.done;
-
+    logger.d("Start change_done event for task with ${event.id} id");
+    GetIt.I<FirebaseAppConfig>().analytics.analyticDoneEvent();
+    int changedTaskId =
+        _tasks.lastIndexWhere((element) => element.id == event.id);
+    int changedTaskFilteredId =
+        _resultList.lastIndexWhere((element) => element.id == event.id);
+    _tasks[changedTaskId] =
+        _tasks[changedTaskId].copyWith(done: !_tasks[changedTaskId].done);
+    _resultList[changedTaskFilteredId] = _tasks[changedTaskId];
     emit(TodoTaskLoadedState(
         tasks: _resultList,
-        doneCounter: changedTask.done ? _doneCounter + 1 : _doneCounter));
+        doneCounter:
+            _tasks[changedTaskId].done ? _doneCounter + 1 : _doneCounter));
 
-    await Future<void>.delayed(const Duration(milliseconds: 850));
+    await Future<void>.delayed(const Duration(milliseconds: 450));
     emit(TodoTaskLoadingState());
     _filterFunction();
-    logger.log(
-        Level.trace, "End Change Done event for task with ${event.id} id");
     emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
-
     try {
-      await repository.editTask(changedTask);
+      await repository.editTask(_tasks[changedTaskId]);
     } catch (e) {
-      logger.e("Error: ${e.toString()}");
+      logger.d("Error: ${e.toString()}");
       emit(
           TodoTaskErrorState(errorMessage: (e as MyExceptions).errorMessage()));
       emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
     }
+    logger.d("End change_done event for task with ${event.id} id");
   }
 
   FutureOr<void> _onTasksRemoveEvent(
       TodoTasksRemoveEvent event, Emitter<ToDoTasksState> emit) async {
-    logger.log(Level.trace, "Start Remove event for task with ${event.id} id");
+    logger.d("Start remove_event for task with ${event.id} id");
+    GetIt.I<FirebaseAppConfig>().analytics.analyticDeleteEvent();
     emit(TodoTaskLoadingState());
 
     _tasks.removeWhere((element) => element.id == event.id);
     _filterFunction();
-    logger.log(Level.trace, "End Remove event for task with ${event.id} id");
     emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
     try {
       await repository.removeTask(event.id);
     } catch (e) {
-      logger.e("Error: ${e.toString()}");
+      logger.d("Error: ${e.toString()}");
       emit(
           TodoTaskErrorState(errorMessage: (e as MyExceptions).errorMessage()));
       emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
     }
+    logger.d("End remove_event for task with ${event.id} id");
   }
 
   FutureOr<void> _onTodoTasksAddEvent(
       TodoTasksAddEvent event, Emitter<ToDoTasksState> emit) async {
-    logger.log(Level.trace, "Start Add task event with task  ${event.task}");
+    logger.d("Start add_task event with task  ${event.task}");
+    GetIt.I<FirebaseAppConfig>().analytics.addTaskEvent();
     emit(TodoTaskLoadingState());
 
     _tasks.add(event.task);
     _filterFunction();
-    logger.log(Level.trace, "End Add task event with task  ${event.task}");
     emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
     try {
       await repository.addTask(event.task);
@@ -129,47 +145,48 @@ class ToDoTasksBloc extends Bloc<ToDoTasksEvent, ToDoTasksState> {
           TodoTaskErrorState(errorMessage: (e as MyExceptions).errorMessage()));
       emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
     }
+    logger.d("End add_task event with task  ${event.task.toString()}");
   }
 
   FutureOr<void> _onTodoTasksChangeDoneVisibilityEvent(
       TodoTasksChangeDoneVisibilityEvent event, Emitter<ToDoTasksState> emit) {
-    logger.log(Level.trace, "Start Change visibility event");
+    logger.d("Start change_visibility event to ${!isComplitedHide}");
     emit(TodoTaskLoadingState());
     _isComplitedHide = !_isComplitedHide;
     _filterFunction();
-    logger.log(Level.trace, "End Change visibility event");
+    logger.d("End change_visibility event");
     emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
   }
 
   FutureOr<void> _onTodoTasksChangeTaskEvent(
       TodoTasksChangeTaskEvent event, Emitter<ToDoTasksState> emit) async {
-    logger.log(Level.trace, "Start Change event with task  ${event.task}");
+    logger.d("Start change_event with task id ${event.task.id}");
     emit(TodoTaskLoadingState());
     int i = _tasks.indexWhere((element) => element.id == event.id);
 
     _tasks[i] = event.task;
     _filterFunction();
-    logger.log(Level.trace, "End Change event with task  ${event.task}");
     emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
 
     try {
       await repository.editTask(event.task);
     } catch (e) {
-      logger.e("Error: ${e.toString()}");
+      logger.d("Error: $e");
       emit(
           TodoTaskErrorState(errorMessage: (e as MyExceptions).errorMessage()));
       emit(TodoTaskLoadedState(tasks: _resultList, doneCounter: _doneCounter));
     }
+    logger.d("End change_event with task id ${event.task.id}");
   }
 
   void _filterFunction() {
-    logger.log(Level.trace, "Start filter");
+    logger.d("Start filter");
     final List<TodoTask> doneTasks =
         _tasks.where((element) => element.done).toList();
     _doneCounter = doneTasks.length;
     _tasks.sort(((a, b) => b.createdAt.compareTo(a.createdAt)));
     _resultList = _tasks.where((element) => !element.done).toList() +
         (isComplitedHide ? [] : doneTasks);
-    logger.log(Level.trace, "Filter done");
+    logger.d("Filter done");
   }
 }

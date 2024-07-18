@@ -15,7 +15,7 @@ extension GetApiLocalTodoTaskCollection on Isar {
 
 const ApiLocalTodoTaskSchema = CollectionSchema(
   name: r'ApiLocalTodoTask',
-  id: 197562289866225472,
+  id: 197562289866225457,
   properties: {
     r'changed_at': PropertySchema(
       id: 0,

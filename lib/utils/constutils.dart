@@ -27,6 +27,12 @@ class ColorPaletteLight {
   static const Color kBackElevated = Color(0xFFFFFFFF);
 }
 
+class CommonColors {
+  static const Color kColorRed = Color(0xFFFF3B30);
+  static const Color kColorGreen = Color(0xFF34C759);
+  static const Color kColorBlue = Color(0xFF007AFF);
+}
+
 class ColorPaletteDark {
   static const Color kSupportSeparator = Color(0x33FFFFFF);
   static const Color kSupportOverlay = Color(0x52000000);
