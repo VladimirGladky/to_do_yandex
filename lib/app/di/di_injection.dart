@@ -20,12 +20,14 @@ import 'package:to_do/data/repository/data_remote_repository.dart';
 import 'package:to_do/data/repository/data_shared_pref_repo.dart';
 import 'package:to_do/domain/repository/abstract_shared_pref_to_do_repo.dart';
 import 'package:to_do/domain/repository/abstract_to_do_repo.dart';
+import 'package:to_do/firebase_options.dart';
 import '../../data/api/remote_api_util.dart';
 
 Future<void> setUpDI(DIOptions options) async {
-  WidgetsFlutterBinding.ensureInitialized();
+  await initFirebase();
   final getIt = GetIt.instance;
-  getIt.registerLazySingleton<MyRouterDelegate>(() => MyRouterDelegate());
+  GetIt.instance
+      .registerLazySingleton<MyRouterDelegate>(() => MyRouterDelegate());
   getIt.registerLazySingleton<CustomRouteInformationParser>(
       () => CustomRouteInformationParser());
 
@@ -53,19 +55,13 @@ Future<void> initFirebase() async {
   var logger = Logger();
   logger.d('Firebase initialization started');
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "api key here",
-      appId: "app id here",
-      messagingSenderId: "messaging id",
-      projectId: "project id here",
-    ),
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   logger.d('Firebase initialized');
 }
 
 ///SETUP DEV
 Future<void> _setUpDev(GetIt getIt) async {
-  await initFirebase();
   getIt.registerLazySingleton<FAnalytic>(() => FAnalyticProd());
   getIt.registerLazySingleton<FRemoteConfigs>(() => FRemoteConfigsProd());
   getIt.registerLazySingleton<FirebaseAppConfig>(
@@ -105,7 +101,6 @@ Future<void> _setUpDev(GetIt getIt) async {
 
 ///SETUP PROD
 Future<void> _setUpProd(GetIt getIt) async {
-  await initFirebase();
   getIt.registerLazySingleton<FAnalytic>(() => FAnalyticProd());
   getIt.registerLazySingleton<FRemoteConfigs>(() => FRemoteConfigsProd());
   getIt.registerLazySingleton<FirebaseAppConfig>(
