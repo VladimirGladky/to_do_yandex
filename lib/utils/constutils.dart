@@ -76,4 +76,16 @@ class MyFunctions {
 
     return hash;
   }
+
+  static bool isTablet(BuildContext context) {
+    return MediaQuery.of(context).size.shortestSide < 600 ? false : true;
+  }
+
+  static bool isPortraitOrientation(BuildContext context) {
+    return MediaQuery.of(context).size.width /
+                MediaQuery.of(context).size.height <
+            1
+        ? false
+        : true;
+  }
 }
