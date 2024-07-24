@@ -1,30 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
+import 'package:to_do/app/firebase/firebase_config.dart';
 import 'package:to_do/domain/bloc/to_do_tasks_bloc/to_do_tasks_bloc.dart';
 import 'package:to_do/domain/models/task.dart';
 import 'package:to_do/utils/constutils.dart';
 
-class TaskCheckbox extends StatelessWidget {
+class TaskCheckbox extends StatefulWidget {
   final String id;
   final DegreeOfImportance importance;
   final bool done;
-
   const TaskCheckbox(
       {super.key,
-      required this.done,
       required this.id,
-      required this.importance});
+      required this.importance,
+      required this.done});
 
   @override
+  State<TaskCheckbox> createState() => _TodoCheckboxState();
+}
+
+class _TodoCheckboxState extends State<TaskCheckbox> {
+  @override
   Widget build(BuildContext context) {
-    Color backgroundColor = switch (importance) {
-      DegreeOfImportance.high => ColorPaletteLight.kColorRed.withOpacity(0.16),
+    Color backgroundColor = switch (widget.importance) {
+      DegreeOfImportance.high => GetIt.I<FirebaseAppConfig>()
+          .configs
+          .getRemoteConfigImportantColor()
+          .withOpacity(0.16),
       _ => Colors.transparent
     };
-    Color borderColor = switch (importance) {
-      DegreeOfImportance.high => ColorPaletteLight.kColorRed,
-      _ => ColorPaletteLight.kSupportSeparator.withOpacity(0.2)
+    Color borderColor = switch (widget.importance) {
+      DegreeOfImportance.high =>
+        GetIt.I<FirebaseAppConfig>().configs.getRemoteConfigImportantColor(),
+      _ => Theme.of(context).colorScheme.secondary.withOpacity(0.4)
     };
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -33,33 +44,47 @@ class TaskCheckbox extends StatelessWidget {
           alignment: AlignmentDirectional.center,
           children: [
             Container(
-              color: done ? ColorPaletteLight.kColorGreen : backgroundColor,
-              width: 15,
-              height: 15,
+              color: widget.done ? CommonColors.kColorGreen : backgroundColor,
+              width: 15.r,
+              height: 15.r,
             ),
-            Checkbox(
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                checkColor: ColorPaletteLight.kColorGrayLight,
-                overlayColor:
-                    WidgetStateProperty.all(ColorPaletteLight.kColorGrayLight),
-                fillColor: WidgetStateProperty.all(
-                    done ? ColorPaletteLight.kColorGreen : borderColor),
-                value: done,
-                onChanged: (bool? newvalue) async {
-                  context
-                      .read<ToDoTasksBloc>()
-                      .add(TodoTasksChangeDoneEvent(id: id));
-                })
+            SizedBox(
+              width: 35.r,
+              height: 35.r,
+              child: FittedBox(
+                fit: BoxFit.fill,
+                child: Checkbox(
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  checkColor: Theme.of(context).colorScheme.onSurface,
+                  fillColor: WidgetStateProperty.all(
+                      widget.done ? Colors.green : borderColor),
+                  value: widget.done,
+                  onChanged: (bool? newValue) async {
+                    context
+                        .read<ToDoTasksBloc>()
+                        .add(TodoTasksChangeDoneEvent(id: widget.id));
+                  },
+                ),
+              ),
+            ),
           ],
         ),
-        if (!done)
-          switch (importance) {
+        if (!widget.done)
+          switch (widget.importance) {
             DegreeOfImportance.low => Padding(
-                padding: const EdgeInsets.only(right: 6),
+                padding: const EdgeInsets.only(right: 6).r,
                 child: SvgPicture.asset(MyIcons.kLowPriorityIcon)),
             DegreeOfImportance.high => Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: SvgPicture.asset(MyIcons.kHighPriorityIcon)),
+                padding: const EdgeInsets.only(right: 6).r,
+                child: SvgPicture.asset(
+                  MyIcons.kHighPriorityIcon,
+                  colorFilter: ColorFilter.mode(
+                      GetIt.I<FirebaseAppConfig>()
+                          .configs
+                          .getRemoteConfigImportantColor(),
+                      BlendMode.srcIn),
+                ),
+              ),
             _ => const SizedBox()
           },
       ],

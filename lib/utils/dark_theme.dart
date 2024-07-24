@@ -4,68 +4,104 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do/utils/constutils.dart';
 
 ThemeData darkTheme() => ThemeData(
-      colorScheme: const ColorScheme.dark(
-        primary: ColorPaletteLight.kColorBlue,
-        secondary: ColorPaletteLight.kColorBlue,
-        shadow: ColorPaletteLight.kColorGrayLight,
-        onSurface: ColorPaletteLight.kBackElevated,
-        surface: ColorPaletteLight.kBackPrimary,
+    colorScheme: const ColorScheme.dark(
+      primary: ColorPaletteLight.kColorBlue,
+      secondary: ColorPaletteLight.kColorBlue,
+      shadow: ColorPaletteLight.kColorGrayLight,
+      onSurface: ColorPaletteLight.kBackElevated,
+      surface: ColorPaletteLight.kBackPrimary,
+    ),
+    brightness: Brightness.dark,
+    appBarTheme: const AppBarTheme(
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: ColorPaletteLight.kBackPrimary,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
       ),
-      brightness: Brightness.dark,
-      appBarTheme: const AppBarTheme(
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: ColorPaletteLight.kBackPrimary,
-          statusBarIconBrightness: Brightness.dark,
-          statusBarBrightness: Brightness.light,
-        ),
-      ),
-      scaffoldBackgroundColor: ColorPaletteLight.kBackPrimary,
-      primaryColor: ColorPaletteLight.kColorBlue,
-      textTheme: TextTheme(
-        titleLarge: GoogleFonts.roboto(
-          textStyle: const TextStyle(
-            color: ColorPaletteLight.kLabelPrimary,
-            fontWeight: FontWeight.w500,
-            fontSize: 32,
-            height: 38 / 32,
-          ),
-        ),
-        titleMedium: GoogleFonts.roboto(
-          textStyle: const TextStyle(
-            color: ColorPaletteLight.kLabelPrimary,
-            fontWeight: FontWeight.w500,
-            fontSize: 20,
-            height: 32 / 20,
-          ),
-        ),
-        bodyMedium: GoogleFonts.roboto(
-          textStyle: const TextStyle(
-            color: ColorPaletteLight.kLabelPrimary,
-            fontWeight: FontWeight.w400,
-            fontSize: 16,
-            height: 20 / 16,
-          ),
-        ),
-        bodySmall: GoogleFonts.roboto(
-          textStyle: const TextStyle(
-            color: ColorPaletteLight.kLabelPrimary,
-            fontWeight: FontWeight.w400,
-            fontSize: 14,
-            height: 20 / 14,
-          ),
-        ),
-        labelLarge: GoogleFonts.roboto(
-          textStyle: const TextStyle(
-            color: ColorPaletteLight.kLabelPrimary,
-            fontWeight: FontWeight.w500,
-            fontSize: 14,
-            height: 24 / 14,
-          ),
+    ),
+    scaffoldBackgroundColor: ColorPaletteLight.kBackPrimary,
+    primaryColor: ColorPaletteLight.kColorBlue,
+    textTheme: TextTheme(
+      titleLarge: GoogleFonts.roboto(
+        textStyle: const TextStyle(
+          color: ColorPaletteLight.kLabelPrimary,
+          fontWeight: FontWeight.w500,
+          fontSize: 32,
+          height: 38 / 32,
         ),
       ),
-      textSelectionTheme: TextSelectionThemeData(
-        selectionColor: ColorPaletteLight.kColorBlue.withOpacity(0.3),
-        selectionHandleColor: ColorPaletteLight.kColorBlue,
+      titleMedium: GoogleFonts.roboto(
+        textStyle: const TextStyle(
+          color: ColorPaletteLight.kLabelPrimary,
+          fontWeight: FontWeight.w500,
+          fontSize: 20,
+          height: 32 / 20,
+        ),
       ),
-      iconTheme: const IconThemeData(color: ColorPaletteLight.kLabelTertiary),
-    );
+      bodyMedium: GoogleFonts.roboto(
+        textStyle: const TextStyle(
+          color: ColorPaletteLight.kLabelPrimary,
+          fontWeight: FontWeight.w400,
+          fontSize: 16,
+          height: 20 / 16,
+        ),
+      ),
+      bodySmall: GoogleFonts.roboto(
+        textStyle: const TextStyle(
+          color: ColorPaletteLight.kLabelPrimary,
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+          height: 20 / 14,
+        ),
+      ),
+      labelLarge: GoogleFonts.roboto(
+        textStyle: const TextStyle(
+          color: ColorPaletteLight.kLabelPrimary,
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
+          height: 24 / 14,
+        ),
+      ),
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      selectionColor: ColorPaletteLight.kColorBlue.withOpacity(0.3),
+      selectionHandleColor: ColorPaletteLight.kColorBlue,
+    ),
+    iconTheme: const IconThemeData(color: ColorPaletteLight.kLabelTertiary),
+    useMaterial3: false,
+    dividerTheme:
+        const DividerThemeData(color: ColorPaletteDark.kSupportSeparator),
+    switchTheme: SwitchThemeData(
+      thumbColor: WidgetStateProperty.resolveWith<Color>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.selected)) {
+            return ColorPaletteDark.kColorBlue;
+          }
+          return ColorPaletteDark.kColorGray;
+        },
+      ),
+      trackColor: WidgetStateProperty.resolveWith<Color>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.selected)) {
+            return ColorPaletteDark.kColorBlue.withOpacity(0.48);
+          }
+          return ColorPaletteDark.kColorGray.withOpacity(0.48);
+        },
+      ),
+      trackOutlineColor: WidgetStateProperty.resolveWith<Color>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.selected)) {
+            return ColorPaletteDark.kColorBlue.withOpacity(0.48);
+          }
+          return ColorPaletteDark.kColorGray.withOpacity(0.48);
+        },
+      ),
+    ),
+    cardTheme: const CardTheme(
+      color: ColorPaletteDark.kBackSecondary,
+      surfaceTintColor: ColorPaletteDark.kBackSecondary,
+    ),
+    popupMenuTheme: const PopupMenuThemeData(
+      color: ColorPaletteDark.kBackSecondary,
+      surfaceTintColor: Colors.black,
+    ));

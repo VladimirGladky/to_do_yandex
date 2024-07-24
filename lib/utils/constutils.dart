@@ -27,6 +27,12 @@ class ColorPaletteLight {
   static const Color kBackElevated = Color(0xFFFFFFFF);
 }
 
+class CommonColors {
+  static const Color kColorRed = Color(0xFFFF3B30);
+  static const Color kColorGreen = Color(0xFF34C759);
+  static const Color kColorBlue = Color(0xFF007AFF);
+}
+
 class ColorPaletteDark {
   static const Color kSupportSeparator = Color(0x33FFFFFF);
   static const Color kSupportOverlay = Color(0x52000000);
@@ -57,7 +63,7 @@ class MyIcons {
 
 class MyFunctions {
   static int fastHash(String string) {
-    var hash = 0xcbf29ce484222325;
+    var hash = 0xcbf29ce484222000;
 
     var i = 0;
     while (i < string.length) {
@@ -69,5 +75,17 @@ class MyFunctions {
     }
 
     return hash;
+  }
+
+  static bool isTablet(BuildContext context) {
+    return MediaQuery.of(context).size.shortestSide < 600 ? false : true;
+  }
+
+  static bool isPortraitOrientation(BuildContext context) {
+    return MediaQuery.of(context).size.width /
+                MediaQuery.of(context).size.height <
+            1
+        ? false
+        : true;
   }
 }
